@@ -1,0 +1,15 @@
+### enrichment estimation
+bedwin100.R - R script uses UCSC canonical genes and gencode gene list to create a bed file from gene starts to ends with each window classed as exonic or intronic 
+intersect.sh - this counts reads per the  gene bed window file for each sample - mouse and human read separately - also adds a header info of total read count
+paster.sh - for subsequent analyses files with sample reads per window and matching Input reads per window are combined in the same file.  
+binomTables.R - R script calculate enrichment scores and p-values from Sample per window reads and Input per window reads 
+plotter_loops.R - plotting enrichment vs Input scores scatterplots Fig1 and FigS1 and upset plots of enrichment overlap between samples 
+xistplotter.R - plotting enrichment along the XIST exon region for Fig S2
+### clippy
+bamsummary.sh - summarise location info of begin of bam second read pair into a tab delimited format (tsv file)
+tsvsummary.R - process and count read pileups from the tsv file and reorganise to clippy input format
+clippy.sh - run clippy on the summarised tsv files
+### Homer
+Homer.sh - Shows the Homer command run on CLAP enriched windows. The background used was 100k ransom window samples
+
+
