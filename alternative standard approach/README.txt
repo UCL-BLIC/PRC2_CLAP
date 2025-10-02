@@ -5,7 +5,7 @@
 
 ### Quantifying RNA binding to individual exons and introns
 
-3.get_exonintron_segments.R - generates BED files for exon and intron locations. For each gene, exons/introns are extracted from the canonical transcript, excluding tagged genes and genes in non-canonical chromosomes 
-4.bigWigAverageOverBed.sh - calculates average signal from input-normalised bigWigs over exonic and intronic regions
-5.make_scatterplots.R - scatterplots of the average signals 
+3.get_exonintron_segments.R - generates BED files for exon and intron locations. For each gene, exons/introns are extracted from the canonical transcript, excluding transgenes and genes in non-canonical chromosomes 
+4.bigWigAverageOverBed.sh - calculates average CPM from input-normalised bigWigs over exonic and intronic regions
+5.make_scatterplots.R - scatterplots of the average CPM for each exon and intron
 
