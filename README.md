@@ -3,9 +3,9 @@ This repository contains the code used for the CLAP data analysis described in H
 
 # STEP 1: Download FASTQ files  - PLEASE EDIT
 
-<i>I believe we got the fastq files directly from RDS Alex, so if you wnat the exact details of how these were downloaded, please check with him. </i>
+<i>I believe we got the fastq files directly from Alex (in RDS), so if you wnat the exact details of how these were downloaded, please check with him. </i>
 
-<i>There were a couple of samples that were downloaded a posteriori, and I (Lucia) downloaded them from their SRA numbers using the nfcore/fetchngs pipeline</i>
+<i>There were a couple of samples that were downloaded a posteriori, and I (Lucia) downloaded them from their SRA numbers using the nfcore/fetchngs pipeline and processed the same way as the other samples</i>
 
 # STEP 2: Run the CLAPAnalysis_sge pipeline
 
@@ -41,7 +41,7 @@ for sample in samples;do
         fi
 done
 ```
-This produces one BAM file per sample
+This produces one BAM file per sample, and these final BAM files were copied to RDS in `/rdss/rd01/ritd-ag-project-rd01v9-shend55/CLAPAnalysis_output_repsMerged`.
 
 
 # STEP 4a: Analysis following Guo's methodoilogy
