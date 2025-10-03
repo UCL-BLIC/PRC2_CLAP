@@ -20,7 +20,7 @@ Replicates for each same sample were merged using samtools:
 ```
 mkdir -p CLAPAnalysis_output${type}_repsMerged
 
-for sample in samples;do
+for sample in "${samples[@]}";do
 
         bam="CLAPAnalysis_output${type}/${sample}.merged.mapped.bam"
         bai="CLAPAnalysis_output${type}/${sample}.merged.mapped.bam.bai"
