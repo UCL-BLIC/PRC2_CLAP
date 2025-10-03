@@ -1,0 +1,49 @@
+#!/bin/bash -l
+
+
+#$ -S /bin/bash
+#$ -l h_rt=24:0:0 
+#$ -l mem=20G
+#$ -pe smp 1
+#$ -N bamcovergae
+#$ -wd /home/regmond/Scratch/richard_CLAPAnalysis/2_bam_to_bw
+
+
+module load blic-modules
+module load deeptools/3.5.5
+module load samtools
+
+
+number=$SGE_TASK_ID
+paramfile="/home/regmond/Scratch/richard_CLAPAnalysis/2_bam_to_bw/samples.txt"
+
+
+sample=`sed -n ${number}p $paramfile | awk '{print $1}'`
+
+
+mkdir -p CLAPAnalysis_output_repsMerged/bedgraphs
+mkdir -p CLAPAnalysis_output_repsMerged/bigwigs
+	
+bamCoverage --bam CLAPAnalysis_output_repsMerged/${sample}.merged.mapped.bam \
+	-o CLAPAnalysis_output_repsMerged/bedgraphs/${sample}.merged.mapped.all.bg \
+	--outFileFormat bedgraph \
+	--binSize 100 \
+	--normalizeUsing CPM \
+	--effectiveGenomeSize 5273117239 \
+	--ignoreForNormalization chrX chrY \
+	--extendReads
+
+#- get the human data (only canonical chrs, no repeats either)
+awk '$1 ~ /^chr([1-9]_human$|1[0-9]_human$|2[0-2]_human$|X_human$|Y_human$)/' CLAPAnalysis_output_repsMerged/bedgraphs/${sample}.merged.mapped.all.bg > CLAPAnalysis_output_repsMerged/bedgraphs/${sample}.merged.mapped.hs.all.bg
+#- remove the trailing "_human"
+perl -p -i -e 's/_human//g' CLAPAnalysis_output_repsMerged/bedgraphs/${sample}.merged.mapped.hs.all.bg
+#- get bedgraph to bigwig
+bedGraphToBigWig CLAPAnalysis_output_repsMerged/bedgraphs/${sample}.merged.mapped.hs.all.bg hg38.chrom.sizes CLAPAnalysis_output_repsMerged/bigwigs/${sample}.merged.mapped.hs.all.bw
+
+#- get the mouse data (only canonical chrs, no repeats either)
+awk '$1 ~ /^chr([1-9]_mouse$|1[0-9]_mouse$|X_mouse$|Y_mouse$)/' CLAPAnalysis_output_repsMerged/bedgraphs/${sample}.merged.mapped.all.bg > CLAPAnalysis_output_repsMerged/bedgraphs/${sample}.merged.mapped.mm.all.bg
+#- remove the trailing "_mouse"
+perl -p -i -e 's/_mouse//g' CLAPAnalysis_output_repsMerged/bedgraphs/${sample}.merged.mapped.mm.all.bg
+#- get bedgraph to bigwig
+bedGraphToBigWig CLAPAnalysis_output_repsMerged/bedgraphs/${sample}.merged.mapped.mm.all.bg mm10.chrom.sizes CLAPAnalysis_output_repsMerged/bigwigs/${sample}.merged.mapped.mm.all.bw
+
